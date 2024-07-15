@@ -1,10 +1,12 @@
 import express, { Request, Response } from 'express';
 import routes from './routes';
+import cors from 'cors';
+import corsOptions from 'utils/whitelisting';
 
 const app = express();
 const PORT = 3000;
 
-// Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes

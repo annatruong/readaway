@@ -12,7 +12,8 @@
     "paths": {
       "services/*": ["services/*"],
       "controllers/*": ["controllers/*"],
-      "types/*": ["types/*"]
+      "types/*": ["types/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -11,7 +11,8 @@
     "baseUrl": "src",
     "paths": {
       "services/*": ["services/*"],
-      "controllers/*": ["controllers/*"]
+      "controllers/*": ["controllers/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*.ts"],
