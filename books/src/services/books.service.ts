@@ -1,7 +1,5 @@
 import { BookListItem, BookRawItem } from 'types/books';
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export const searchBook = async (title: string): Promise<BookListItem[]> => {
   try {

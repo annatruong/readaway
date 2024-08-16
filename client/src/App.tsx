@@ -1,18 +1,14 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Login, Register } from './components';
+import { Login, Register, Dashboard, MyBooks } from './pages';
 
-const Dashboard: React.FC = () => {
-  return <div>Dashboard</div>;
-};
-
-const App: React.FC = () => {
+const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/mybooks" element={<MyBooks />} />
       </Routes>
     </Router>
   );

@@ -9,12 +9,16 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "baseUrl": "src",
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "services/*": ["services/*"],
       "controllers/*": ["controllers/*"],
-      "utils/*": ["utils/*"]
+      "utils/*": ["utils/*"],
+      "config/*": ["config/*"],
+      "libs/*": ["libs/*"],
+      "types/*": ["types/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/types/*.d.ts", "src/types/Express.d.ts"],
   "exclude": ["node_modules"]
 }

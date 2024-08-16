@@ -1,4 +1,5 @@
-import Login from './Login';
-import Register from './Register';
+import ErrorMessage from './ErrorMessage';
+import Sidebar from './Sidebar';
+import SearchBar from './SearchBar';
 
-export { Login, Register };
+export { ErrorMessage, Sidebar, SearchBar };

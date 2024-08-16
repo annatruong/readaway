@@ -2,8 +2,7 @@ import express from 'express';
 import { authentication, users } from '../controllers';
 
 const router = express.Router();
-
-router.get('/logout', authentication.logout);
-router.get('/users', users.getUserProfile);
+router.post('/register', users.registerUser);
+router.post('/login', authentication.login);
 
 export default router;

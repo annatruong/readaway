@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import readawayLogo from '../assets/readaway_logo.png';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { readawayLogo } from '../assets';
+import { ErrorMessage } from '../components';
+const adminUrl = import.meta.env.VITE_ADMIN_BASE_URL;
 
 const Register: React.FC = () => {
   const [profileName, setProfileName] = useState('');
@@ -9,38 +12,36 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Add your registration logic here
+    setError('');
     try {
-      const response = await fetch('http://localhost:3000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ profileName, firstName, lastName, email, password, confirmPassword }),
-      });
+      const registerData = { profileName, firstName, lastName, email, password, confirmPassword };
 
-      if (response.ok) {
-        // Handle successful registration
-        console.log('Registration successful');
+      const response = await axios.post(`${adminUrl}/auth/register`, registerData);
+
+      if (response.status === 200) {
+        navigate('/dashboard');
       } else {
-        // Handle registration failure
-        alert('Registration failed');
+        setError('Registration failed');
       }
     } catch (error) {
-      console.error('Error registering:', error);
-      alert('Registration failed');
+      if (axios.isAxiosError(error) && error?.response?.data) {
+        setError(error.response.data);
+      } else {
+        console.error('Unexpected error:', error);
+        setError('An unexpected error occurred.');
+      }
     }
   };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-10 w-auto" src={readawayLogo} alt="Readaway logo" />
-        <h2 className="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
+        <h2 className="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -134,7 +135,7 @@ const Register: React.FC = () => {
           <div>
             <div className="flex items-center justify-between">
               <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
-                Password
+                Confirm Password
               </label>
             </div>
             <div className="mt-2 mb-10">
@@ -149,6 +150,7 @@ const Register: React.FC = () => {
             </div>
           </div>
           <div>
+            {error && <ErrorMessage message={error} />}
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-customDarkGreen px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-customGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customDarkGreen"
@@ -167,35 +169,6 @@ const Register: React.FC = () => {
       </div>
     </div>
   );
-
-  // return (
-  //   <div className="register-container">
-  //     <h2>Register</h2>
-  //     <form onSubmit={handleRegister}>
-  //       <div>
-  //         <label htmlFor="username">Username:</label>
-  //         <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="password">Password:</label>
-  //         <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="confirmPassword">Confirm Password:</label>
-  //         <input
-  //           type="password"
-  //           id="confirmPassword"
-  //           value={confirmPassword}
-  //           onChange={e => setConfirmPassword(e.target.value)}
-  //         />
-  //       </div>
-  //       <button type="submit">Register</button>
-  //       <p>
-  //         Already have an account? <Link to="/">Login here</Link>
-  //       </p>
-  //     </form>
-  //   </div>
-  // );
 };
 
 export default Register;

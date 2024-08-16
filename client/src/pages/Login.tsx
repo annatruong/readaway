@@ -1,37 +1,35 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import readawayLogo from '../assets/readaway_logo.png';
+import { readawayLogo } from '../assets';
+import { ErrorMessage } from '../components';
+const adminUrl = import.meta.env.VITE_ADMIN_BASE_URL;
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleLogin = async (event: React.FormEvent) => {
-    console.log('hi');
     event.preventDefault();
+    setError('');
     try {
-      console.log('here');
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      console.log(response);
-      if (response.ok) {
-        // const data = await response.json();
-        console.log('Go to dashboard');
-        // Handle successful login (e.g., store token, redirect to dashboard)
+      console.log('adminUrl: ', adminUrl);
+      const response = await axios.post(`${adminUrl}/auth/login`, { email, password }, { withCredentials: true });
+
+      if (response.status === 200) {
         navigate('/dashboard');
       } else {
-        // Handle login failure (e.g., show error message)
-        alert('Login failed');
+        setError('Login failed');
       }
     } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Login failed');
+      if (axios.isAxiosError(error) && error?.response?.data) {
+        setError(error.response.data);
+      } else {
+        console.error('Unexpected error:', error);
+        setError('An unexpected error occurred.');
+      }
     }
   };
 
@@ -39,9 +37,7 @@ const Login: React.FC = () => {
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 my-20">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-10 w-auto" src={readawayLogo} alt="Readaway logo" />
-        <h2 className="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
+        <h2 className="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -88,6 +84,7 @@ const Login: React.FC = () => {
           </div>
 
           <div>
+            {error && <ErrorMessage message={error} />}
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-customDarkGreen px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-customGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customDarkGreen"
