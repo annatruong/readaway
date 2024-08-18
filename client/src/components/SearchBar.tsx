@@ -1,10 +1,11 @@
 type SearchBarProps = {
   placeholderText: string;
+  flex?: string;
 };
 
-function SideBar({ placeholderText }: SearchBarProps) {
+function SideBar({ placeholderText, flex }: SearchBarProps) {
   return (
-    <form className="max-w-xl mx-auto">
+    <form className={` ${flex} max-w-xl mx-auto`}>
       <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">
         Search
       </label>

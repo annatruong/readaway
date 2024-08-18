@@ -1,9 +1,10 @@
 import { sign } from 'jsonwebtoken';
 import { UserData } from 'types/userTypes';
+import { secrets } from 'libs/gcp';
 
 async function createToken(userData: UserData) {
   try {
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = await secrets.get('jwt-secret');
 
     if (!jwtSecret) {
       throw new Error('missing auth required parameter');

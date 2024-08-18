@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ErrorMessage, Sidebar } from '../components';
+import { ErrorMessage, Sidebar, PageTitle } from '../components';
 const adminUrl = import.meta.env.VITE_ADMIN_BASE_URL;
 
 const Dashboard: React.FC = () => {
@@ -32,28 +32,12 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
-  const handleLogout = async () => {
-    setError('');
-    try {
-      await axios.get(`${adminUrl}/api/logout`, { withCredentials: true });
-      navigate('/');
-    } catch (error) {
-      if (axios.isAxiosError(error) && error?.response?.data) {
-        setError(error.response.data);
-      } else {
-        console.error('Unexpected error:', error);
-        setError('An unexpected error occurred.');
-      }
-    }
-  };
-
   return (
     <div>
       <Sidebar />
       <div className="p-4 sm:ml-64">
-        <h1>Hi {user}, welcome back!</h1>
+        <PageTitle title={`Hi ${user}, welcome back!`} />
         {error && <ErrorMessage message={error} />}
-        <button onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
