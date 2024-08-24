@@ -15,7 +15,6 @@ const Login: React.FC = () => {
     event.preventDefault();
     setError('');
     try {
-      console.log('adminUrl: ', adminUrl);
       const response = await axios.post(`${adminUrl}/auth/login`, { email, password }, { withCredentials: true });
 
       if (response.status === 200) {

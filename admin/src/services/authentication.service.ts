@@ -28,6 +28,7 @@ export const login = async ({ email, password }: { email: string; password: stri
     };
 
     const accessToken = await jwt.createToken(userData);
+    console.log(accessToken);
     return accessToken;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);

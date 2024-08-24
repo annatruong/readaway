@@ -5,8 +5,8 @@ type PageTitleProps = {
 
 function PageTitle({ title, flex }: PageTitleProps) {
   return (
-    <div className="mb-2">
-      <h1 className={`${flex} text-xl font-bold leading-7 text-gray-900 sm:truncate sm:text-2xl sm:tracking-tight`}>{title}</h1>
+    <div className="mt-2 mb-2">
+      <h1 className={`${flex} px-4 text-xl font-bold leading-7 text-gray-900 sm:truncate sm:text-2xl sm:tracking-tight`}>{title}</h1>
     </div>
   );
 }
