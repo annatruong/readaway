@@ -71,7 +71,7 @@ export interface SearchInfo {
   textSnippet?: string;
 }
 
-export interface BookRawItem {
+export type BookRawItem = {
   kind?: string;
   id?: string;
   etag?: string;
@@ -80,14 +80,15 @@ export interface BookRawItem {
   saleInfo?: SaleInfo;
   accessInfo?: AccessInfo;
   searchInfo?: SearchInfo;
-}
+};
 
-export interface BookListItem {
+export type BookListItem = {
+  id: string;
   selfLink: string | null;
-  title: string | null;
+  title: string;
   authors: string | null;
   publisher: string | null;
   publishedDate: string | null;
-  description: string | null;
+  shortDescription: string | null;
   thumbnailImage: string | null;
-}
+};

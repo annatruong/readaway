@@ -1,4 +1,4 @@
-import { Datastore } from '@google-cloud/datastore';
+import { Datastore, PropertyFilter } from '@google-cloud/datastore';
 const datastore = new Datastore({ databaseId: 'readaway' });
 import { DatastoreParams } from 'types/datastoreTypes';
 
@@ -17,7 +17,7 @@ async function get({ namespace, kind }: DatastoreParams) {
 async function query({ namespace, kind, filter }: DatastoreParams) {
   try {
     const query = filter
-      ? datastore.createQuery(namespace, kind).filter(filter.field, filter.operator, filter.value)
+      ? datastore.createQuery(namespace, kind).filter(new PropertyFilter(filter.field, filter.operator, filter.value))
       : datastore.createQuery(namespace, kind);
     const [entities] = await datastore.runQuery(query);
     const entitiesWithKey = entities.map(row => ({ ...row, id: row[datastore.KEY].id }));
